@@ -99,42 +99,14 @@ port.on('open', function () {
 			if(state == STATE1 && frontsensor <= 200){
 				d.XYZ({speed_X:30,speed_Y:0,speed_Z:0,speed_omega:0});	
 				cooldown();
-				state = STATE2;
+				state = STATE0;
 				cnt = 0;
-			}
-			
-			
-			
-			/*switch(state){
-				case STATE0:
-					d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:0});	
-					cooldown();
-					stflag = 0; 
-					state = STATE2;
-					cnt = 0;
-				break;
-					
-				case STATE1:
-					d.XYZ({speed_X:10,speed_Y:0,speed_Z:0,speed_omega:0});	
-					cooldown();
-					state = STATE2;
-					cnt = 0;
-				break;
-					
-				case STATE2:
-					d.XYZ({speed_X:0,speed_Y:-40,speed_Z:0,speed_omega:0});
-					cooldown();
-					cnt = 0;
-					state = STATE0;
-				break;	
-
-			} */ //end of switch 
+			} 
 		} //end of front sensor
 		
 		else{
 			state = STATE0;
 			cnt = cnt + 1;
-			
 			if(state == STATE0){
 				if(cnt == 30){
 					d.XYZ({speed_X:0,speed_Y:30,speed_Z:0,speed_omega:0});	
@@ -147,25 +119,7 @@ port.on('open', function () {
 					cnt = 0;
 				}
 			}
-			/*switch(state){
-				case STATE0:
-					if(cnt == 30){
-						d.XYZ({speed_X:0,speed_Y:30,speed_Z:0,speed_omega:0});	
-						cooldown();
-						cnt = 0;
-						state = STATE1;
-					}	
-					break;
-					
-				case STATE1: 
-					d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:0});	
-					cooldown();
-					cnt = 0;
-					state = STATE0;
-				break;
-
-				} */ //end of switch
-			} //the end of else
+		} //the end of else
 	} // end of stflag
 	  
 	  // this for timer of the node.js
@@ -176,7 +130,7 @@ port.on('open', function () {
 			end = new Date();
 			executionTime = end.getTime() - start.getTime();
     	}
-    	start = new Date();*/
+    	start = new Date(); */
 	console.log(rightsensor, frontsensor, leftsensor);
 
   });
