@@ -145,7 +145,7 @@ process.stdin.on('keypress', function (ch, key) {
 			console.log('land');
 			d.land();
       	//		led1.off();
-			led2.off();
+	//		led2.off();
       			stflag=0;
 		} else if (key.name === 't') {
 			console.log('takeoff');
