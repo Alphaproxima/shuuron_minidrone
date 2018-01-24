@@ -104,17 +104,18 @@ port.on('open', function () {
 			} 
 		} //end of front sensor
 		
+	//1000 counts = 33 seconds, 1 counts = 330 ms
 		else{
 			state = STATE0;
 			cnt = cnt + 1;
 			if(state == STATE0){
-				if(cnt == 10){
-					d.XYZ({speed_X:0,speed_Y:30,speed_Z:0,speed_omega:0});	
+				if(cnt == 50){
+					d.XYZ({speed_X:0,speed_Y:50,speed_Z:0,speed_omega:0});	
 					cooldown();
 					//cnt = 0;
 				}
-				if(cnt == 50){
-					d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:0});	
+				if(cnt == 60){
+					d.XYZ({speed_X:0,speed_Y:20,speed_Z:0,speed_omega:0});	
 					cooldown();
 					cnt = 0;
 				}
@@ -153,6 +154,8 @@ process.stdin.on('keypress', function (ch, key) {
 		} else if (key.name === 'h') {
 			console.log('hover');
 			d.hover();
+			stflag = 0;
+			cnt = 0;
 		} else if (key.name === 'x') {
 			console.log('disconnect');
 			d.disconnect();
