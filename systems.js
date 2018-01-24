@@ -59,49 +59,6 @@ var STATE1=1; //Forward
 // state parameter
 var dobs = 0; //parameter to turn on the drone
 
-/*board.on("ready",function(){
-	
-	// Activate the photo IC
-	var photo1 = new five.Sensor({
-		pin: "A2",
-		freq: 10 //10ms sampling
-	});
-	var photo2 = new five.Sensor({
-		pin: "A1",
-		freq: 10 //10 ms sampling
-	});
-	
-	//for photo IC Rightside
-	photo1.on('data', function(value){
-		// no specific functon here
-	});
-	
-	//for photo IC Leftside
-	photo2.on('data', function(value){
-		// Here we declare the function of the right and the left sensor
-		if(photo2 < 850){
-			d.tiltRight({steps: STEPS});
-			console.log('turn right');
-			cooldown();
-		}
-		else if(photo1 < 850) {
-			d.tiltLeft({steps: STEPS});
-			console.log('turn left');
-			cooldown();
-		}
-	
-	// this for timer of the node.js
-	end = new Date();
-	executionTime = end.getTime() - start.getTime();
-	while(executionTime < interval) {
-		end = new Date();
-		executionTime = end.getTime() - start.getTime();
-    	}
-    	start = new Date();
-	
-//	console.log(photo1.value+ ',', photo2.value);
-	});	
-});*/
 
 var port = new SerialPort('/dev/ttyMFD1',{
   baudRate: 9600,
@@ -116,35 +73,36 @@ port.on('open', function () {
 	var leftsensor = datum[1]
 	var rightsensor = datum[2]
 //	console.log(datum);
+	
 	if(stflag == 1){
 		if (rightsensor <= 850){
-			console.log("kanan");
+			//console.log("kanan");
 			d.tiltLeft({steps: -gain*(initial-STEPS)})
 			cooldown();
 		}
 		if (leftsensor <= 850){
-			console.log("kiri");
+			//console.log("kiri");
 			d.tiltRight({steps: -gain*(initial-STEPS)});
 			cooldown();
 		}
 	
-		if (frontsensor <= 150){
+		if (frontsensor <= 200){
 			state = STATE0;
 			cnt = cnt + 1;
-			
+	
 			switch(state){
 				case STATE0:
 					d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:0});	
 					cooldown();
 					stflag = 0; 
-					state = STATE2;
+					state = STATE1;
 					cnt = 0;
 				break;
 					
 				case STATE1:
 					d.XYZ({speed_X:10,speed_Y:0,speed_Z:0,speed_omega:0});	
 					cooldown();
-					state = STATE2;
+					state = STATE0;
 					cnt = 0;
 				break;
 					
@@ -163,13 +121,13 @@ port.on('open', function () {
 			cnt = cnt + 1;
 			switch(state){
 				case STATE0:
-					if(cnt == 30){
+					if(cnt == 10){
 						d.XYZ({speed_X:0,speed_Y:30,speed_Z:0,speed_omega:0});	
 						cooldown();
 						cnt = 0;
 						state = STATE1;
 					}	
-					break;
+				break;
 					
 				case STATE1: 
 					d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:0});	
@@ -232,20 +190,20 @@ process.stdin.on('keypress', function (ch, key) {
 		} else if (key.name === 'left') {
 			d.tiltLeft({ steps: STEPS });
 			cooldown();
-		} else if (key.name === 'u') {
+		} else if (key.name === 'w') {
 			d.up({ steps: STEPS });
 			cooldown();
-		} else if (key.name === 'd') {
+		} else if (key.name === 's') {
 			d.down({ steps: STEPS });
 			cooldown();
 		}
 
-		if (key.name === 'm') {
+		if (key.name === 'a') {
 			param.turn = 90;
 			d.drive(param, STEPS);
 			cooldown();
 		}
-		if (key.name === 'h') {
+		if (key.name === 'd') {
 			param.turn = -90;
 			d.drive(param, STEPS);
 			cooldown();
@@ -261,7 +219,7 @@ process.stdin.on('keypress', function (ch, key) {
 		if (key.name === 'g') {
 			stflag=1;
 		}
-   		 if (key.name === 's') {
+   		 if (key.name === 'q') {
 			state=STATE1;
 			cnt = 0;
 		}
