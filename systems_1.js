@@ -172,20 +172,20 @@ process.stdin.on('keypress', function (ch, key) {
 		} else if (key.name === 'left') {
 			d.tiltLeft({ steps: STEPS });
 			cooldown();
-		} else if (key.name === 'u') {
+		} else if (key.name === 'w') {
 			d.up({ steps: STEPS });
 			cooldown();
-		} else if (key.name === 'd') {
+		} else if (key.name === 's') {
 			d.down({ steps: STEPS });
 			cooldown();
 		}
 
-		if (key.name === 'm') {
+		if (key.name === 'a') {
 			param.turn = 90;
 			d.drive(param, STEPS);
 			cooldown();
 		}
-		if (key.name === 'h') {
+		if (key.name === 'd') {
 			param.turn = -90;
 			d.drive(param, STEPS);
 			cooldown();
@@ -201,7 +201,7 @@ process.stdin.on('keypress', function (ch, key) {
 		if (key.name === 'g') {
 			stflag=1;
 		}
-   		 if (key.name === 's') {
+   		 if (key.name === 'q') {
 			state=STATE1;
 			cnt = 0;
 		}
