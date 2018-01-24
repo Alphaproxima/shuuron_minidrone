@@ -85,7 +85,7 @@ port.on('open', function () {
 			cooldown();
 		}
 	
-		if (frontsensor <= 200){
+		if (frontsensor <= 400){
 			state = STATE0;
 			cnt = cnt + 1;
 			
@@ -96,8 +96,8 @@ port.on('open', function () {
 				cnt = 0;
 			}
 			
-			if(state == STATE1 && frontsensor <= 200){
-				d.XYZ({speed_X:30,speed_Y:0,speed_Z:0,speed_omega:0});	
+			if(state == STATE1 && frontsensor <= 400){
+				d.XYZ({speed_X:0,speed_Y:-40,speed_Z:0,speed_omega:0});	
 				cooldown();
 				state = STATE0;
 				cnt = 0;
@@ -132,7 +132,7 @@ port.on('open', function () {
 			executionTime = end.getTime() - start.getTime();
     	}
     	start = new Date(); */
-	console.log(rightsensor, frontsensor, leftsensor);
+	console.log(rightsensor, frontsensor, leftsensor, cnt);
 
   });
 });
