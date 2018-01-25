@@ -84,15 +84,34 @@ port.on('open', function () {
 			d.tiltRight({steps: -gain*(initial-STEPS)});
 			cooldown();
 		}
-	  
+	 	//if this code works, maybe we can delete the else function
+		if (frontsensor > 1000){
+			d.XYZ({speed_X:0,speed_Y:50,speed_Z:0,speed_omega:0});	
+			cooldown();
+			//state = STATE1;
+			//cnt = 0;
+		}
+		
+		if(300 <= frontsensor && frontsensor <= 1000){
+			d.XYZ({speed_X:0,speed_Y:40,speed_Z:0,speed_omega:0});	
+			cooldown();
+		}
+		
 		if (frontsensor <= 300){
 			state = STATE0;
 			cnt = cnt + 1;
 			
-			if(state == STATE0){
+			if(state == STATE0 && frontsensor <= 300){
 				d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:0});	
 				cooldown();
 				state = STATE1;
+				cnt = 0;
+			}
+			
+			else if(state == STATE1 && frontsensor <= 300){
+				d.XYZ({speed_X:-40,speed_Y:0,speed_Z:0,speed_omega:0});	
+				cooldown();
+				state = STATE0;
 				cnt = 0;
 			}
 		} //end of front sensor
@@ -102,7 +121,16 @@ port.on('open', function () {
 			state = STATE0;
 			cnt = cnt + 1;
 			if(state == STATE0){
-        if
+				if(cnt == 50){
+					d.XYZ({speed_X:0,speed_Y:50,speed_Z:0,speed_omega:0});	
+					cooldown();
+					//cnt = 0;
+				}
+				if(cnt == 60){
+					d.XYZ({speed_X:0,speed_Y:20,speed_Z:0,speed_omega:0});	
+					cooldown();
+					cnt = 0;
+				}
 			}
 		} //the end of else
 	} // end of stflag
