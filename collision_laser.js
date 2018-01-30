@@ -55,14 +55,14 @@ const interval=33;
 var state;
 var STATE0=0; //hovering
 var STATE1=1; //Forward
+var STATE2=2; //Moving
 
 // state parameter
 var dobs = 0; //parameter to turn on the drone
 
-
 var port = new SerialPort('/dev/ttyMFD1',{
   baudRate: 9600,
-//parser: SerialPort.parsers.readline('\n')
+//  parser: SerialPort.parsers.readline('\n')
 });
 
 port.on('open', function () {
@@ -73,49 +73,66 @@ port.on('open', function () {
 	var leftsensor = datum[1]
 	var rightsensor = datum[2]
 //	console.log(datum);
-	
 	if(stflag == 1){
 		if (rightsensor <= 350){
-			//console.log("kanan");
+			console.log("kanan");
 			d.tiltLeft({steps: -gain*(initial-STEPS)})
 			cooldown();
 		}
 		if (leftsensor <= 350){
-			//console.log("kiri");
+			console.log("kiri");
 			d.tiltRight({steps: -gain*(initial-STEPS)});
 			cooldown();
 		}
-	
-		if (frontsensor <= 400){
+	 	//if this code works, maybe we can delete the else function
+		//if (frontsensor > 1000){
+		//	d.XYZ({speed_X:0,speed_Y:50,speed_Z:0,speed_omega:0});	
+		//	cooldown();
+			//state = STATE1;
+			//cnt = 0;
+		//}
+		
+		//if(300 <= frontsensor && frontsensor <= 1000){
+		//	d.XYZ({speed_X:0,speed_Y:40,speed_Z:0,speed_omega:0});	
+		//	cooldown();
+		//}
+		
+		if (frontsensor <= 350){
 			state = STATE0;
 			cnt = cnt + 1;
-	
 			
-			} //end of switch
+			if(state == STATE0 && frontsensor <= 350){
+				d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:0});	
+				cooldown();
+				state = STATE1;
+				cnt = 0;
+			}
+			
+			else if(state == STATE1 && frontsensor <= 350){
+				d.XYZ({speed_X:-40,speed_Y:0,speed_Z:0,speed_omega:0});	
+				cooldown();
+				state = STATE0;
+				cnt = 0;
+			}
 		} //end of front sensor
 		
+	//1000 counts = 33 seconds, 1 counts = 330 ms
 		else{
 			state = STATE0;
 			cnt = cnt + 1;
-			switch(state){
-				case STATE0:
-					if(cnt == 10){
-						d.XYZ({speed_X:0,speed_Y:30,speed_Z:0,speed_omega:0});	
-						cooldown();
-						cnt = 0;
-						state = STATE1;
-					}	
-				break;
-					
-				case STATE1: 
-					d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:0});	
+			if(state == STATE0){
+				if(cnt == 50){
+					d.XYZ({speed_X:0,speed_Y:50,speed_Z:0,speed_omega:0});	
+					cooldown();
+					//cnt = 0;
+				}
+				if(cnt == 60){
+					d.XYZ({speed_X:0,speed_Y:20,speed_Z:0,speed_omega:0});	
 					cooldown();
 					cnt = 0;
-					state = STATE0;
-				break;
-
-				} //end of switch
-			} //the end of else
+				}
+			}
+		} //the end of else
 	} // end of stflag
 	  
 	  // this for timer of the node.js
@@ -126,8 +143,8 @@ port.on('open', function () {
 			end = new Date();
 			executionTime = end.getTime() - start.getTime();
     	}
-    	start = new Date();*/
-	console.log(rightsensor, frontsensor, leftsensor);
+    	start = new Date(); */
+	console.log(rightsensor, frontsensor, leftsensor, cnt);
 
   });
 });
@@ -139,17 +156,18 @@ process.stdin.on('keypress', function (ch, key) {
 
 		if (key.name === 'l') {
 			console.log('land');
-	  		d.land();
-  //		led1.off();
-	//		led2.off();
-      	stflag=0;
+			d.land();
+//		led1.off();
+	 //		led2.off();
+     	 	stflag=0;
 		} else if (key.name === 't') {
 			console.log('takeoff');
 			d.takeOff();
 		} else if (key.name === 'h') {
-			console.log('hover');
-			d.hover();
-      stflag=0;
+			  console.log('hover');
+			  d.hover();
+			  stflag = 0;
+			  cnt = 0;
 		} else if (key.name === 'x') {
 			console.log('disconnect');
 			d.disconnect();
