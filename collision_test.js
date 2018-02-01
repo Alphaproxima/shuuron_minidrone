@@ -81,13 +81,13 @@ port.on('open', function () {
 //	console.log(datum);
 	if(stflag == 1)
 	{
-		if(leftsensor < 400 || rightsensor 400){
+		if(leftsensor < 400 || rightsensor < 400){
 			d.XYZ({speed_X:fr-fl,speed_Y:ff,speed_Z:0,speed_omega:0});	
 			cooldown();
 		}
 		if(frontsensor < 400){
-			var rnd_R = (Math.random()*fr);
-			var rnd_L = (Math.random()*fl);
+			//var rnd_R = (Math.random()*fr);
+			//var rnd_L = (Math.random()*fl);
 			d.XYZ({speed_X:fr-fl,speed_Y:0,speed_Z:0,speed_omega:0});	
 			cooldown();
 			if(fr > fl){
