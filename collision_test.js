@@ -75,19 +75,27 @@ port.on('open', function () {
 	var rightsensor = datum[1]
 	var leftsensor = datum[2]
 
-	var ff = speed_gain/(1+math.exp(-0.02*(frontsensor - 500)));
-	var fl = speed_gain/(1+math.exp(-0.02*(leftsensor - 500)));
-	var fr = speed_gain/(1+math.exp(-0.02*(rightsensor - 500)));
+	var ff = speed_gain/(1+math.exp(-0.02*(frontsensor - 400)));
+	var fl = speed_gain/(1+math.exp(-0.02*(leftsensor - 400)));
+	var fr = speed_gain/(1+math.exp(-0.02*(rightsensor - 400)));
 //	console.log(datum);
 	if(stflag == 1)
 	{
-		if(leftsensor < 500 || rightsensor <500){
+		if(leftsensor < 400 || rightsensor 400){
 			d.XYZ({speed_X:fr-fl,speed_Y:ff,speed_Z:0,speed_omega:0});	
 			cooldown();
 		}
-		else if(frontsensor <500){
+		else if(frontsensor <400){
 			d.XYZ({speed_X:fr-fl,speed_Y:0,speed_Z:0,speed_omega:0});	
 			cooldown();
+			if(fr > fl){
+				d.XYZ({speed_X:fr-0*fl,speed_Y:0,speed_Z:0,speed_omega:0});	
+				cooldown();
+			}
+			else{
+				d.XYZ({speed_X:0*fr-fl,speed_Y:0,speed_Z:0,speed_omega:0});	
+				cooldown();
+			}
 		}
 		else{
 			d.XYZ({speed_X:0,speed_Y:ff,speed_Z:0,speed_omega:0});	
