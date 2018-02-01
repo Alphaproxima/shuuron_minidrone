@@ -98,6 +98,7 @@ port.on('open', function () {
 			}
 			//when fr == fl we choose to random action
 			else{
+			//	d.XYZ({speed_X:1.5*((Math.random()*fr)-(Math.random()*fl)),speed_Y:0,speed_Z:0,speed_omega:0});
 				d.XYZ({speed_X:1.5*fr,speed_Y:0,speed_Z:0,speed_omega:0});	
 				cooldown();
 			}
