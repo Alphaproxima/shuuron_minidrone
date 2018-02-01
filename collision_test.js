@@ -15,6 +15,7 @@ process.stdin.resume();
 
 var ACTIVE = true;
 var STEPS = 5;
+var speed_gain = 20;
 var d = new RollingSpider({uuid:"c01229b61cbe"}); //rs drone
 //var d = new RollingSpider({uuid:"e01428853dc1"}); // mars drone 
 //var d = new RollingSpider({uuid:"e014c2d73d80"});
@@ -74,18 +75,18 @@ port.on('open', function () {
 	var rightsensor = datum[1]
 	var leftsensor = datum[2]
 
-	var ff = 10/(1+math.exp(-0.02*(frontsensor - 500)));
-	var fl = 10/(1+math.exp(-0.02*(leftsensor - 500)));
-	var fr = 10/(1+math.exp(-0.02*(rightsensor - 500)));
+	var ff = speed_gain/(1+math.exp(-0.02*(frontsensor - 500)));
+	var fl = speed_gain/(1+math.exp(-0.02*(leftsensor - 500)));
+	var fr = speed_gain/(1+math.exp(-0.02*(rightsensor - 500)));
 //	console.log(datum);
 	if(stflag == 1)
 	{
 		if(leftsensor < 500 || rightsensor <500){
-			d.XYZ({speed_X:fl-fr,speed_Y:ff,speed_Z:0,speed_omega:0});	
+			d.XYZ({speed_X:fr-fl,speed_Y:ff,speed_Z:0,speed_omega:0});	
 			cooldown();
 		}
 		else if(frontsensor <500){
-			d.XYZ({speed_X:fl-fr,speed_Y:0,speed_Z:0,speed_omega:0});	
+			d.XYZ({speed_X:fr-fl,speed_Y:0,speed_Z:0,speed_omega:0});	
 			cooldown();
 		}
 		else{
