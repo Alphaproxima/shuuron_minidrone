@@ -85,7 +85,7 @@ port.on('open', function () {
 			d.XYZ({speed_X:fr-fl,speed_Y:ff,speed_Z:0,speed_omega:0});	
 			cooldown();
 		}
-		else if(frontsensor <400){
+		if(frontsensor <400){
 			d.XYZ({speed_X:fr-fl,speed_Y:0,speed_Z:0,speed_omega:0});	
 			cooldown();
 			if(fr > fl){
