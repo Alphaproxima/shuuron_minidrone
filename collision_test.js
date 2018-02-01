@@ -89,11 +89,11 @@ port.on('open', function () {
 			d.XYZ({speed_X:fr-fl,speed_Y:0,speed_Z:0,speed_omega:0});	
 			cooldown();
 			if(fr > fl){
-				d.XYZ({speed_X:fr-0*fl,speed_Y:0,speed_Z:0,speed_omega:0});	
+				d.XYZ({speed_X:(1.5*fr)-(0*fl),speed_Y:0,speed_Z:0,speed_omega:0});	
 				cooldown();
 			}
 			else{
-				d.XYZ({speed_X:0*fr-fl,speed_Y:0,speed_Z:0,speed_omega:0});	
+				d.XYZ({speed_X:(0*fr)-(1.5*fl),speed_Y:0,speed_Z:0,speed_omega:0});	
 				cooldown();
 			}
 		}
