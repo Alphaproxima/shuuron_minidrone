@@ -86,22 +86,24 @@ port.on('open', function () {
 			cooldown();
 		}
 		if(frontsensor < 400){
+			var rnd_R = (Math.random()*fr);
+			var rnd_L = (Math.random()*fl);
 			d.XYZ({speed_X:fr-fl,speed_Y:0,speed_Z:0,speed_omega:0});	
 			cooldown();
 			if(fr > fl){
 				d.XYZ({speed_X:(1.5*fr)-(0*fl),speed_Y:0,speed_Z:0,speed_omega:0});	
 				cooldown();
 			}
-			else if{
+			else if(fr < fl){
 				d.XYZ({speed_X:(0*fr)-(1.5*fl),speed_Y:0,speed_Z:0,speed_omega:0});	
 				cooldown();
 			}
 			//when fr == fl we choose to random action
 			else{
-			//	var rnd = ((Math.random()*fr)-(Math.random()*fl));
-			//	d.XYZ({speed_X:1.5*((Math.random()*fr)-(Math.random()*fl)),speed_Y:0,speed_Z:0,speed_omega:0});
+				var rnd = ((Math.random()*fr)-(Math.random()*fl));
+				d.XYZ({speed_X:1.5*((Math.random()*fr)-(Math.random()*fl)),speed_Y:0,speed_Z:0,speed_omega:0});
 			//	console.log(rnd);
-				d.XYZ({speed_X:1.5*fr,speed_Y:0,speed_Z:0,speed_omega:0});	
+			//	d.XYZ({speed_X:1.5*fr,speed_Y:0,speed_Z:0,speed_omega:0});	
 				cooldown();
 			}
 		}
