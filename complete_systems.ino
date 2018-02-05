@@ -1,5 +1,6 @@
 #include <Wire.h>
 #include <VL53L0X.h>
+#include <math.h>
 
 VL53L0X sensor1;
 VL53L0X sensor2;
@@ -9,10 +10,14 @@ VL53L0X sensor3;
 #define sensor_pin2 5
 #define sensor_pin3 6
 
+
 //address number of 43 is prohibited
 #define newAddress1 41
 #define newAddress2 42 //for sensor number 2
 #define newAddress3 44 //for sensor number 2
+
+float SensorL;
+float SensorR;
 
 void setup()
 {
@@ -51,11 +56,17 @@ void setup()
 
 void loop()
 {
+  SensorL = analogRead(A0);
+  SensorR = analogRead(A1);
+  
   Serial.print(sensor3.readRangeContinuousMillimeters());
   Serial.print(',');
   Serial.print(sensor2.readRangeContinuousMillimeters());
   Serial.print(',');
   Serial.print(sensor1.readRangeContinuousMillimeters());
+  Serial.print(',');
+  Serial.print(SensorL);
+  Serial.print(',');
+  Serial.print(SensorR);
   Serial.println();
-  
 }
